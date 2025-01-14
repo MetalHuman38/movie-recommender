@@ -43,6 +43,13 @@ tempfile
 *.tsbuildinfo
 next-env.d.ts
 
-loader/sequelize/data/*csv
+# Temporary or large data files
+loader/sequelize/data/*.csv
 
-/home/babsdevsys/movie_recommendations/loader/sequelize/data/*
+# Build outputs
+.next/
+out/
+
+# Logs and backups
+*.log
+*.tmp
