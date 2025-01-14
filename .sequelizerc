@@ -1,0 +1,7 @@
+const path = require("path");
+module.exports = {
+  config: path.resolve("/home/babsdevsys/movie_recommendations/loader/sequelize/config/config.cjs"), // or wherever your config file is
+  "migrations-path": path.resolve("/home/babsdevsys/movie_recommendations/loader/sequelize/migrations"),
+  "models-path": path.resolve("/home/babsdevsys/movie_recommendations/loader/sequelize/models"),
+  "seeders-path": path.resolve("/home/babsdevsys/movie_recommendations/loader/sequelize/seeders"),
+};
