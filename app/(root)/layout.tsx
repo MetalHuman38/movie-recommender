@@ -1,11 +1,15 @@
 import Header from "components/Header";
 import React, { ReactNode } from "react";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const layout = ({ children }: { children: ReactNode }) => {
+const layout = async ({ children }: { children: ReactNode }) => {
+  const session = await auth();
+  if (!session) redirect("/sign-in");
   return (
     <main className="root-container">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Header />
+        <Header session={session} />
         <div className="mt-20 pb-20">{children}</div>
       </div>
     </main>

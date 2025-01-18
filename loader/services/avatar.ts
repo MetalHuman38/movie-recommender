@@ -1,12 +1,16 @@
-import crypto from "crypto";
-
 /**
- * Generates an MD5 hash for the given string.
+ * Generates a simple hash using a custom algorithm for a given string.
  * @param str - The input string to hash.
- * @returns The generated MD5 hash.
+ * @returns A pseudo-hash for the input string.
  */
 export function generateHash(str: string): string {
-  return crypto.createHash("md5").update(str).digest("hex");
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0; // Convert to 32-bit integer
+  }
+  return Math.abs(hash).toString(16); // Convert to hex string
 }
 
 /**

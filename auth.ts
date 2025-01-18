@@ -1,90 +1,69 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { SequelizeUserRepo } from '@/loader/repository/user/SequelizeUserRepo';
-import { JwtTokenService } from '@/loader/services/jwtTokenService';
-import { VerifyUserUseCase } from "@/loader/repository/user/UserUseCase";
-import { BcryptPasswordHandler } from "./loader/services/bcryptPasswordHandler";
+import { compare } from "bcryptjs";
+import { db } from "./database/drizzle";
+import { registrations } from "./database/schema";
+import { eq } from "drizzle-orm";
 
+class InvalidLoginError extends CredentialsSignin {
+  code = "Invalid identifier or password"
+}
 
-// Initialize dependencies
-const jwtHandler = new JwtTokenService();
-const userRepo = new SequelizeUserRepo();
-const passwordHasher = new BcryptPasswordHandler();
-const userUseCase = new VerifyUserUseCase(userRepo, passwordHasher, jwtHandler);
-
-export const authOptions = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
-    strategy: "jwt" as "jwt", // Use JWT for session management
+    strategy: 'jwt',
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials: Partial<Record<"email" | "password", unknown>>) {
+      async authorize(credentials) {
         if (!credentials.email || !credentials.password) {
-          throw new Error("Email and password are required");
+          throw new InvalidLoginError()
+        }
+        const user = await db
+          .select()
+          .from(registrations)
+          .where(eq(registrations.email, credentials.email.toString()))
+          .limit(1)
+          .execute();
+        if (user.length === 0) {
+          return null;
         }
 
-        try {
-          // Verify user credentials using your UserUseCase
-          const user = await userUseCase.verifyUser(
-            credentials.email as string,
-            credentials.password as string
-          );
-
-          if (!user) {
-            throw new Error("Invalid credentials");
-          }
-
-          // Generate a JWT token for the user
-          const tokenPayload = {
-            id: user.id,
-            email: user.email,
-            role: "user",
-          };
-          const token = jwtHandler.jwtGenerator(tokenPayload);
-          if (!token) {
-            throw new Error("Token generation failed");
-          }
-
-          return { ...user, token }; // Pass user and token
-        } catch (error) {
-          console.error("Authorization error:", error);
-          throw new Error("Authentication failed");
+        const isPasswordValid = await compare(credentials.password.toString(), user[0].password);
+        if (!isPasswordValid) {
+          return null;
         }
+
+        return {
+          id: user[0].id.toString(),
+          email: user[0].email,
+          name: user[0].fullName,
+        } as User;
       },
     }),
   ],
+  pages: {
+    signIn: '/sign-in',
+  },
   callbacks: {
-    async jwt({ token, user }: { token: any, user?: any }) {
+    async jwt({ token, user }) {
       if (user) {
+        console.log("JWT Callback - Token:", token);
+        console.log("JWT Callback - User:", user);
         token.id = user.id;
-        token.email = user.email;
         token.name = user.name;
-        token.accessToken = user.token; // Attach the JWT token
+        token.email = user.email;
       }
       return token;
     },
-    async session({ session, token }: { session: any, token: any }) {
-      if (token) {
-        session.user = {
-          id: token.id,
-          email: token.email,
-          name: token.name,
-        };
-        session.accessToken = token.accessToken;
-        session.expires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // Add `expires` to session
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string
+        session.user.name = token.name as string
+        session.user.email = token.email as string
+        return session
       }
-      return session;
+      return session
     },
   },
-  secret: process.env.AUTH_SECRET,
-};
-
-export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
-
-
-export default NextAuth(authOptions);
+});

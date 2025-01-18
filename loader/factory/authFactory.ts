@@ -1,33 +1,31 @@
 // loader/factory/authFactory.ts
-import { SequelizeUserRepo } from "@/loader/repository/user/SequelizeUserRepo";
-import { BcryptPasswordHandler } from "@/loader/services/bcryptPasswordHandler";
-import { JwtTokenService } from "@/loader/services/jwtTokenService";
-import { LoginUserUseCase, RegisgertUserUseCase, VerifyUserUseCase } from "@/loader/repository/user/UserUseCase";
+import { PostresRepo } from "@/loader/repository/user/PostgresRepo";
+import { LoginUserUseCase, LogOutUserUseCase, RegisgertUserUseCase, VerifyUserUseCase } from "@/loader/repository/user/UserUseCase";
 
 
 // ** Factory function to create the RegisterUserUseCase ** //
 export const makeRegisterUserUseCase = () => {
-  const userRepo = new SequelizeUserRepo();
-  const passwordHasher = new BcryptPasswordHandler();
-  const jwtHandler = new JwtTokenService();
+  const userRepo = new PostresRepo();
 
-  return new RegisgertUserUseCase(userRepo, passwordHasher, jwtHandler);
+  return new RegisgertUserUseCase(userRepo);
 };
 
 export const makeSignInUserUseCase = () => {
-  const userRepo = new SequelizeUserRepo();
-  const passwordHasher = new BcryptPasswordHandler();
-  const jwtHandler = new JwtTokenService();
+  const userRepo = new PostresRepo();
 
-  return new LoginUserUseCase(userRepo, passwordHasher, jwtHandler);
+  return new LoginUserUseCase(userRepo);
 };
 
 
 // ** Factory function to create the VerifyUserUseCase ** //
 export const makeVerifyUserUseCase = () => {
-  const userRepo = new SequelizeUserRepo();
-  const passwordHasher = new BcryptPasswordHandler();
-  const jwtHandler = new JwtTokenService();
+  const userRepo = new PostresRepo();
 
-  return new VerifyUserUseCase(userRepo, passwordHasher, jwtHandler);
+  return new VerifyUserUseCase(userRepo);
+};
+
+// ** Factory function to create the LogoutUserUseCase ** //
+export const makeLogoutUserUseCase = () => {
+  const userRepo = new PostresRepo();
+  return new LogOutUserUseCase(userRepo);
 };

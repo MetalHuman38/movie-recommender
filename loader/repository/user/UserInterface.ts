@@ -1,7 +1,7 @@
 // ** New User Interface ** //
 export interface INewUser {
   id?: number;
-  new_user: string;
+  fullName: string;
   username: string;
   email: string;
   password: string;

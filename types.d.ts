@@ -1,5 +1,5 @@
 interface AuthCredentials {
-  new_user: string;
+  fullName: string;
   username: string;
   email: string;
   password: string;

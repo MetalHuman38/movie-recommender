@@ -52,7 +52,6 @@ const AuthForm = <T extends FieldValues>({
       toast({
         title: "Success",
         description: isSignIn ? "Sign in successful" : "Sign up successful",
-        duration: 5000,
       });
       router.push("/");
     } else {
@@ -61,7 +60,6 @@ const AuthForm = <T extends FieldValues>({
         description: isSignIn
           ? "There was an error signing in. Please try again."
           : "There was an error signing up. Please try again.",
-        duration: 5000,
       });
     }
   };

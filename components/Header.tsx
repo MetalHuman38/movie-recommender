@@ -1,11 +1,14 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { cn, getInitials } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import React from "react";
+import { Session } from "next-auth";
+import { get } from "http";
 
-const Header = () => {
+const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
   return (
     <header className="my-10 flex justify-between gap-5">
@@ -28,6 +31,15 @@ const Header = () => {
             )}
           >
             Movies
+          </Link>
+        </li>
+        <li>
+          <Link href="/my-profile">
+            <Avatar>
+              <AvatarFallback className="bg-amber-100">
+                {getInitials(session?.user?.name || "")}
+              </AvatarFallback>
+            </Avatar>
           </Link>
         </li>
       </ul>

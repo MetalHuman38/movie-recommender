@@ -8,4 +8,5 @@ export interface IUserRepo {
   findUserName(username: string): Promise<any>;
   loginUser(email: string, password: string): Promise<INewUser>;
   verifyUser(email: string, password: string): Promise<any>;
+  logOutUser(): Promise<any>;
 }
