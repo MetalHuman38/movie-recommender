@@ -80,12 +80,20 @@
   }
 
   .book-cover_wide {
-    @apply xs:w-[296px] w-[256px] xs:h-[404px] h-[354px];
+    @apply xs:w-full w-full xs:h-auto h-auto object-cover;
   }
+
+  /* .book-cover_wide {
+    @apply xs:w-[296px] w-[256px] xs:h-[404px] h-[354px];
+  } */
 
   /* Book List */
   .book-list {
     @apply mt-10 flex flex-wrap gap-5 max-xs:justify-between xs:gap-10;
+  }
+
+  .movie-list {
+    @apply mt-10 flex flex-wrap gap-1 max-xs:justify-between xs:gap-10;
   }
 
   /* Book Overview */
@@ -98,7 +106,11 @@
   }
 
   .book-info {
-    @apply mt-7 flex flex-row flex-wrap gap-4 text-xl text-light-100;
+    @apply flex flex-row flex-wrap gap-1 text-xl text-light-100;
+  }
+
+  .book-info-overview {
+    @apply flex flex-row flex-wrap gap-4 text-xl text-light-100;
   }
 
   .book-copies {

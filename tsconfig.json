@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,15 +20,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "components/*": [
-        "components/*"
-      ],
-      "loader/*": [
-        "loader/*"
-      ],
+      "@/*": ["./*"],
+      "components/*": ["components/*"],
+      "loader/*": ["loader/*"]
     }
   },
   "include": [
@@ -40,9 +30,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "middleware.js"
+    "middleware.js",
+    "local-db/schema.ts",
+    "local-db/drizzle.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

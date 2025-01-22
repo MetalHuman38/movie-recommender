@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import React from "react";
 import { Session } from "next-auth";
-import { get } from "http";
 
 const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
@@ -35,9 +34,9 @@ const Header = ({ session }: { session: Session }) => {
         </li>
         <li>
           <Link href="/my-profile">
-            <Avatar>
-              <AvatarFallback className="bg-amber-100">
-                {getInitials(session?.user?.name || "")}
+            <Avatar className="w-200 h-200">
+              <AvatarFallback className="bg-amber-100 rounded-full">
+                {getInitials(session?.user?.name || "IN")}
               </AvatarFallback>
             </Avatar>
           </Link>

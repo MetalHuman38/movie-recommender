@@ -53,3 +53,7 @@ out/
 # Logs and backups
 *.log
 *.tmp
+/database/movies_clean.csv
+/database/ratings_clean.csv
+/database/tags_clean.csv
+/database/links_clean.csv

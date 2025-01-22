@@ -189,3 +189,51 @@ export const sampleBooks = [
       "Morgan Housel explores the unique behaviors and mindsets that shape financial success and decision-making.",
   },
 ];
+
+export const samplePoster = [
+  {
+    id: 1,
+    title: "The Midnight Library",
+    poster: "https://m.media-amazon.com/images/I/81J6APjwxlL.jpg",
+  },
+  {
+    id: 2,
+    title: "Atomic Habits",
+    poster: "https://m.media-amazon.com/images/I/81F90H7hnML.jpg",
+  },
+  {
+    id: 3,
+    title: "You Don't Know JS: Scope & Closures",
+    poster:
+      "https://m.media-amazon.com/images/I/7186YfjgHHL._AC_UF1000,1000_QL80_.jpg",
+  },
+  {
+    id: 4,
+    title: "The Alchemist",
+    poster:
+      "https://m.media-amazon.com/images/I/61HAE8zahLL._AC_UF1000,1000_QL80_.jpg",
+  },
+  {
+    id: 5,
+    title: "Deep Work",
+    poster: "https://m.media-amazon.com/images/I/81JJ7fyyKyS.jpg",
+  },
+  {
+    id: 6,
+    title: "Clean Code",
+    poster:
+      "https://m.media-amazon.com/images/I/71T7aD3EOTL._UF1000,1000_QL80_.jpg",
+  },
+  {
+    id: 7,
+    title: "The Pragmatic Programmer",
+    poster:
+      "https://m.media-amazon.com/images/I/71VStSjZmpL._AC_UF1000,1000_QL80_.jpg",
+  },
+  {
+    id: 8,
+    title: "The Psychology of Money",
+    poster:
+      "https://m.media-amazon.com/images/I/81Dky+tD+pL._AC_UF1000,1000_QL80_.jpg",
+  },
+];

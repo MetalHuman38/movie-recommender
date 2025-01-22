@@ -72,7 +72,6 @@ export const movies = pgTable("movies", {
   id: serial("id").primaryKey(), // Auto-increment primary key
   movieId: integer("movie_id").notNull(), // Movie identifier
   genres: GENRE_ENUM("genres").notNull(), // Genres
-  user: varchar("user", { length: 255 }), // User associated with the movie
   imdbId: varchar("imdb_id", { length: 255 }).notNull(), // IMDb identifier
   tmdbId: varchar("tmdb_id", { length: 255 }).notNull(), // TMDb identifier
   posterUrl: text("poster_url").notNull(), // URL for the poster
@@ -143,4 +142,17 @@ export const tags = pgTable("tags", {
 // Infer types for inserting and selecting rows
 export type InsertTag = typeof tags.$inferInsert;
 export type SelectTag = typeof tags.$inferSelect;
+
+export const userMovies = pgTable("user_movies", {
+  id: uuid("id").primaryKey().defaultRandom().unique(), // UUID primary key
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }), // Foreign key to users
+  movieId: integer("movie_id").notNull().references(() => movies.movieId, { onDelete: "cascade" }), // Foreign key to movies
+  createdAt: timestamp("created_at").notNull().defaultNow(), // Timestamp for association creation
+});
+
+// Infer types for inserting and selecting rows
+export type InsertUserMovie = typeof userMovies.$inferInsert;
+export type SelectUserMovie = typeof userMovies.$inferSelect;
+
+
 

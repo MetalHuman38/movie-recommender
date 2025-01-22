@@ -6,10 +6,10 @@ import { eq } from "drizzle-orm";
 import { hash } from "bcryptjs";
 import { signIn } from "@/auth";
 
-
-export const signInWithCredentials = async (params: Pick<AuthCredentials, "email" | "password">) => {
+export const signInWithCredentials = async (
+  params: Pick<AuthCredentials, "email" | "password">
+) => {
   const { email, password } = params;
-  console.log("email", email);
 
   if (!email || !password) {
     return { success: false, error: "Email and password are required" };
@@ -21,7 +21,6 @@ export const signInWithCredentials = async (params: Pick<AuthCredentials, "email
       password: password,
       redirect: false,
     });
-    console.log("user", user);
     if (user?.error) {
       return { success: false, error: user.error };
     }
@@ -33,7 +32,7 @@ export const signInWithCredentials = async (params: Pick<AuthCredentials, "email
       return { success: false, error: "An unknown error occurred" };
     }
   }
-}
+};
 
 export const signUp = async (params: AuthCredentials) => {
   const { fullName, username, email, password } = params;
