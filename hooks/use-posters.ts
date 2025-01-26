@@ -8,6 +8,8 @@ interface usePoster {
   title: string;
   genres: string;
   metadata: any; // Store full metadata from TMDB API
+  videos: any[]; // Store videos from TMDB API
+  cast: any[]; // Store cast from TMDB API
 }
 
 export const usePosters = () => {
@@ -38,20 +40,47 @@ export const usePosters = () => {
           const postersWithImages = await Promise.all(
             links.map(async (link: any) => {
               const tmdbId = link.tmdb_id.replace(".0", ""); // Clean up `tmdb_id`
+
               const tmdbResponse = await fetch(
                 `${baseUrl}/movie/${tmdbId}?api_key=${apiKey}&language=en-US`
               );
 
-              if (tmdbResponse.ok) {
-                const tmdbData = await tmdbResponse.json();
-                const posterPath = tmdbData.poster_path;
+              const videosResponse = await fetch(
+                `${baseUrl}/movie/${tmdbId}/videos?api_key=${apiKey}&language=en-US`
+              );
 
+              // Fetch cast
+              const creditsResponse = await fetch(
+                `${baseUrl}/movie/${tmdbId}/credits?api_key=${apiKey}&language=en-US`
+              );
+
+              const tmdbData = tmdbResponse.ok
+                ? await tmdbResponse.json()
+                : null;
+              const videoData = videosResponse.ok
+                ? await videosResponse.json()
+                : { results: [] };
+
+              const creditsData = creditsResponse.ok
+                ? await creditsResponse.json()
+                : { cast: [] };
+
+              const posterPath = tmdbData?.poster_path;
+              const genres = tmdbData?.genres
+                ?.map((genre: any) => genre.name)
+                .join(", ");
+
+              if (tmdbData) {
                 return {
                   movie_id: link.movie_id,
                   tmdb_id: tmdbId,
                   poster: posterPath
                     ? `${imageUrl}${posterPath}`
                     : "/fallback-poster.png",
+                  title: tmdbData.title,
+                  genres,
+                  videos: videoData.results || [],
+                  cast: creditsData.cast || [],
                   metadata: tmdbData,
                 };
               }

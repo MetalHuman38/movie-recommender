@@ -41,7 +41,7 @@ export const adminSideBarLinks = [
 ];
 
 export const FIELD_NAMES = {
-  fullname: "Full name",
+  fullname: "Fullname",
   username: "Username",
   email: "Email",
   password: "Password",

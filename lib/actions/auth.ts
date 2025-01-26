@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { registrations } from "@/database/schema";
+import { registrations, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { hash } from "bcryptjs";
 import { signIn } from "@/auth";
@@ -70,6 +70,10 @@ export const signUp = async (params: AuthCredentials) => {
       })
       .execute();
     console.log("newUser", newUser);
+
+    if (!newUser || !newUser.rows || newUser.rows.length === 0) {
+      return { success: false, error: "Failed to create registration" };
+    }
     await signInWithCredentials({ email, password });
     return { success: true, error: "" };
   } catch (error) {

@@ -1,0 +1,5 @@
+psycopg2
+scikit-learn
+scikit-surprise
+pandas
+SQLAlchemy

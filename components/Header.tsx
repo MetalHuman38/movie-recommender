@@ -32,9 +32,9 @@ const Header = ({ session }: { session: Session }) => {
             Movies
           </Link>
         </li>
-        <li>
+        <li className="flex items-center gap-2 w-6 h-6">
           <Link href="/my-profile">
-            <Avatar className="w-200 h-200">
+            <Avatar className="">
               <AvatarFallback className="bg-amber-100 rounded-full">
                 {getInitials(session?.user?.name || "IN")}
               </AvatarFallback>

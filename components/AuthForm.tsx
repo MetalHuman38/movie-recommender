@@ -94,6 +94,7 @@ const AuthForm = <T extends FieldValues>({
                     <Input
                       required
                       type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]}
+                      autoComplete="on"
                       {...field}
                       className="form-input"
                     />
