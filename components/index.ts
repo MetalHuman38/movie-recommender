@@ -121,3 +121,129 @@ export type {
   ILinksDataProps,
   IMetaData,
 };
+
+interface TopPicksCardProps {
+  movie_id: number;
+  genres: string;
+  title: string;
+  poster_url: string;
+  vote_average: number;
+  tags: string;
+  links: string;
+  year: number;
+  poster: string;
+}
+
+interface TopPicksDataProps {
+  topPicks: TopPicksCardProps[];
+  renderTopPick?: (topPick: TopPicksCardProps) => JSX.Element; // Custom render logic
+  containerClassName?: string;
+  movie_id?: number;
+  genres?: string;
+  title?: string;
+  poster_url?: string;
+  vote_average?: number;
+  tags?: string;
+  links?: string;
+  year?: number;
+  poster?: string;
+}
+
+interface RecommendationsProps {
+  movie_id: number;
+  genres: string;
+  title: string;
+  poster_url: string;
+  vote_average: number;
+  tags: string;
+  links: string;
+  year: number;
+  poster: string;
+}
+
+interface RecommendationsDataProps {
+  recommendations: RecommendationsProps[];
+  renderRecommendation?: (recommendation: RecommendationsProps) => JSX.Element; // Custom render logic
+  containerClassName?: string;
+  movie_id?: number;
+  genres?: string;
+  title?: string;
+  poster_url?: string;
+  vote_average?: number;
+  tags?: string;
+  links?: string;
+  year?: number;
+  release_date?: string;
+}
+
+interface ISearchMovies {
+  id: number;
+  movie_id: number;
+  title: string;
+  year: number;
+  vote_average: number;
+  actors: string[];
+  director: string;
+  description: string;
+  genres: string;
+  poster_url: string;
+  trailer: string;
+  runtime: number;
+  imdb_id: string;
+  imdbRating: number;
+  imdbVotes: number;
+  metascore: number;
+  type: string;
+  response: boolean;
+  error: string;
+  country: string;
+  layoutClassName?: string;
+  overview: string;
+  release_date: string;
+}
+
+interface SearchMoviesDataProps {
+  searchMovies: ISearchMovies[];
+  renderSearchMovie?: (searchMovie: ISearchMovies) => JSX.Element; // Custom render logic
+  layoutClassName?: string;
+  variant?: PosterVariant;
+  coverColor?: string;
+  coverUrl?: string;
+  containerClassName?: string;
+  title?: string;
+  genres?: string;
+  poster_url?: string;
+  description?: string;
+  vote_average?: number;
+  year?: string;
+  actors?: string[];
+  director?: string;
+  isSavedToWishlist?: boolean;
+  movie_id?: number;
+  isSearching?: boolean;
+  movies?: ISearchMovies[];
+  imdb_id?: string;
+}
+
+interface ChatBotCardProps {
+  response: string;
+  action: string;
+}
+
+interface ChatBotDataProps {
+  chatbot: ChatBotCardProps[];
+  renderChatBot?: (chatbot: ChatBotCardProps) => JSX.Element; // Custom render logic
+  response?: string;
+  action?: string;
+}
+
+export type {
+  TopPicksCardProps,
+  TopPicksDataProps,
+  RecommendationsProps,
+  RecommendationsDataProps,
+  ISearchMovies,
+  SearchMoviesDataProps,
+  ChatBotDataProps,
+  ChatBotCardProps,
+};

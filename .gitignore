@@ -57,3 +57,19 @@ out/
 /database/ratings_clean.csv
 /database/tags_clean.csv
 /database/links_clean.csv
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__/server/*
+
+# Ignore compiled Python files
+*.egg-info/
+*.so
+*.dll
+
+# Ignore IDE and OS files
+.vscode/
+.idea/
+.DS_Store

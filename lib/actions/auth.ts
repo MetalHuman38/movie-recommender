@@ -5,11 +5,18 @@ import { registrations, users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { hash } from "bcryptjs";
 import { signIn } from "@/auth";
+import { headers } from "next/headers";
+import ratelimit from "@/lib/ratelimit";
+import { redirect } from "next/navigation";
 
 export const signInWithCredentials = async (
   params: Pick<AuthCredentials, "email" | "password">
 ) => {
   const { email, password } = params;
+
+  const ip = (await headers()).get("x-real-ip") || "127.0.0.1";
+  const { success } = await ratelimit.limit(ip);
+  if (!success) return redirect("/too-many-request");
 
   if (!email || !password) {
     return { success: false, error: "Email and password are required" };
@@ -36,6 +43,10 @@ export const signInWithCredentials = async (
 
 export const signUp = async (params: AuthCredentials) => {
   const { fullName, username, email, password } = params;
+
+  const ip = (await headers()).get("x-real-ip") || "127.0.0.1";
+  const { success } = await ratelimit.limit(ip);
+  if (!success) return redirect("/too-many-request");
 
   if (!fullName || !username || !email || !password) {
     return { success: false, error: "" };

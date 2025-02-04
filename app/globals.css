@@ -93,7 +93,7 @@
   }
 
   .movie-list {
-    @apply mt-10 flex flex-wrap gap-1 max-xs:justify-between xs:gap-10;
+    @apply mt-5 flex flex-wrap gap-1 max-xs:justify-between xs:gap-10;
   }
 
   .movie-btn {

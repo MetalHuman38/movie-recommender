@@ -3,3 +3,13 @@ scikit-learn
 scikit-surprise
 pandas
 SQLAlchemy
+flask
+flask-cors
+python-dotenv
+waitress
+gunicorn
+flask-cors
+openai
+fuzzywuzzy
+numpy<2
+pydantic

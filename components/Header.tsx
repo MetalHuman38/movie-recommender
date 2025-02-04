@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import React from "react";
 import { Session } from "next-auth";
+import SearchMovie from "@/components/SearchMovie";
+import SearchInput from "./SearchInput";
 
 const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
   return (
-    <header className="my-10 flex justify-between gap-5">
+    <header className="my-6 flex items-center justify-between px-4 md:px-10">
       <Link href="/">
         <Image
           src="/icons/logo1.svg"
@@ -20,6 +22,9 @@ const Header = ({ session }: { session: Session }) => {
           priority
         />
       </Link>
+      <div className="flex items-center gap-4">
+        <SearchInput />
+      </div>
       <ul className="flex flex-row items-center gap-8">
         <li>
           <Link

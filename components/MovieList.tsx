@@ -1,7 +1,10 @@
 "use client";
 import React from "react";
 import Posters from "./Posters";
-import MovieCard from "./MovieCard";
+
+type MovieListProps = {
+  tmdb_id: number;
+};
 
 const MovieList = () => {
   return (

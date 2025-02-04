@@ -36,4 +36,3 @@ export const db = drizzle(sql);
 // }
 
 // export { db };
-

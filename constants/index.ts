@@ -54,6 +54,18 @@ export const FIELD_TYPES = {
   password: "password",
 };
 
+export const SEARCH_OPTIONS = [
+  { value: "title", label: "Title" },
+  { value: "author", label: "Author" },
+  { value: "genre", label: "Genre" },
+];
+
+export const SEARCH_TYPES = {
+  title: "Title",
+  genre: "Genre",
+  author: "Author",
+};
+
 export const sampleBooks = [
   {
     id: 1,
