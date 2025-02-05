@@ -37,7 +37,7 @@ export async function middleware(
   return res;
 }
 
-export const config = {
+const config = {
   matcher: "/api",
 };
 

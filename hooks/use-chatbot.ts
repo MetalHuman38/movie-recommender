@@ -6,6 +6,9 @@ import isEqual from "lodash/isEqual";
 interface ChatBotResponse {
   message: string;
   action?: string;
+  response?: [];
+  movies?: [];
+  movie_id?: number;
 }
 
 export const useChatbot = () => {

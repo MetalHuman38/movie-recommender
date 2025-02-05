@@ -6,7 +6,7 @@ interface IMovies {
   director: string;
   description: string;
   genre: string;
-  poster: string;
+  poster_url: string;
   trailer: string;
   runtime: number;
   id: number;
@@ -18,6 +18,7 @@ interface IMovies {
   response: boolean;
   error: string;
   country: string;
+  movie_id: number;
 }
 
 interface Metadata {

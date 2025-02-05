@@ -28,11 +28,10 @@ const ChatBotCard: React.FC<ChatBotCardProps> = ({ response }) => {
 
   return (
     <div className="p-4 bg-gray-900 text-white rounded-lg shadow-md w-full max-w-md mx-auto">
-      <h2 className="text-lg font-semibold text-gray-300">🤖 ChatBot</h2>
       <p className="text-sm text-gray-400 mt-2">
         {displayText || "Waiting for response..."}
         {response && displayText.length < response.length && (
-          <span className="animate-pulse">|</span> // Blinking cursor effect
+          <span className="animate-pulse">|</span>
         )}
       </p>
     </div>
@@ -40,22 +39,3 @@ const ChatBotCard: React.FC<ChatBotCardProps> = ({ response }) => {
 };
 
 export default ChatBotCard;
-
-// import React from "react";
-
-// interface ChatBotCardProps {
-//   response?: string;
-// }
-
-// const ChatBotCard: React.FC<ChatBotCardProps> = ({ response }) => {
-//   return (
-//     <div className="p-4 bg-gray-900 text-white rounded-lg shadow-md w-full max-w-md mx-auto">
-//       <h2 className="text-lg font-semibold text-gray-300">🤖 ChatBot</h2>
-//       <p className="text-sm text-gray-400 mt-2">
-//         {response || "Waiting for response..."}
-//       </p>
-//     </div>
-//   );
-// };
-
-// export default ChatBotCard;

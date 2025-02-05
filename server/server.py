@@ -328,14 +328,18 @@ def chatbot():
         movie.genres = poster_data[i].get("genres")
         movie.vote_average = poster_data[i].get("vote_average")
 
+        # filter out movies without a poster or title
+        if not movie.poster_url or not movie.title or not movie.release_date:
+            movies.remove(movie)
+
     # ✅ Format movies for chatbot response
     movie_list = [
-        {"title": movie.title, "poster_url": movie.poster_url or "N/A", "release_date": movie.release_date} # noqa
+        {"movie_id": movie.movie_id, "title": movie.title, "poster_url": movie.poster_url or "N/A"} # noqa
         for movie in movies
     ]
 
     response_text = f"Here are the top {count} {genre} movies:\n" + "\n".join(
-       [f"- {m['title']} ({m['release_date']})" for m in movie_list]
+       [f"- {m['title']} s" for m in movie_list]
     )
 
     return jsonify({"response": response_text, "movies": movie_list})
