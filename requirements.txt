@@ -8,7 +8,6 @@ flask-cors
 python-dotenv
 waitress
 gunicorn
-flask-cors
 openai
 fuzzywuzzy
 numpy<2

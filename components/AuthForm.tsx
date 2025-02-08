@@ -105,7 +105,7 @@ const AuthForm = <T extends FieldValues>({
             />
           ))}
           <Button type="submit" className="form-btn">
-            {isSignIn ? "Sign In" : "Sign Up"}
+            {isSignIn ? "Sign In" : "create account"}
           </Button>
         </form>
       </Form>
@@ -116,7 +116,7 @@ const AuthForm = <T extends FieldValues>({
           className="font-bold text-primary"
         >
           {" "}
-          {isSignIn ? "Join Now" : "Sign In"}
+          {isSignIn ? "Create an account" : "Sign In"}
         </Link>
       </p>
     </div>

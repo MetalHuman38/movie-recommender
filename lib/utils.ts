@@ -13,43 +13,6 @@ export const getInitials = (name: string): string =>
     .toUpperCase()
     .slice(0, 2);
 
-export const fetchCSV = async (url: string): Promise<any[]> => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch CSV from ${url}`);
-  }
-
-  const text = await response.text();
-  const rows = text.split("\n").map((row) => row.split(","));
-  const headers = rows.shift(); // First row as headers
-  return rows.map((row) =>
-    headers?.reduce(
-      (acc, header, index) => {
-        acc[header.trim()] = row[index].trim();
-        return acc;
-      },
-      {} as Record<string, string>
-    )
-  );
-};
-
-export const loadData = async () => {
-  const movies = await fetchCSV(
-    "/home/babsdevsys/movie_recommendations/public/data/movies_clean.csv"
-  );
-  const ratings = await fetchCSV(
-    "/home/babsdevsys/movie_recommendations/public/data/ratings_clean.csv"
-  );
-  const tags = await fetchCSV(
-    "/home/babsdevsys/movie_recommendations/public/data/tags_clean.csv"
-  );
-  const links = await fetchCSV(
-    "/home/babsdevsys/movie_recommendations/public/data/links_clean.csv"
-  );
-
-  return { movies, ratings, tags, links };
-};
-
 export const fetchMoviePosters = async (movieIds: number[]) => {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || "";
   const baseUrl = "https://api.themoviedb.org/3";
@@ -66,7 +29,7 @@ export const fetchMoviePosters = async (movieIds: number[]) => {
           return {
             id,
             title: data.title,
-            poster: `${imageUrl}${data.poster_path}`,
+            poster_url: `${imageUrl}${data.poster_path}`,
             year: new Date(data.release_date).getFullYear(),
             rating: data.vote_average,
             actors:
