@@ -15,7 +15,7 @@ import random
 app = Flask(__name__)
 
 # Enable CORS (allowing frontend requests from localhost:3000)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://localhost:5001"]}}) # noqa
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://localhost:5001", "https://movie-recommender-fo9ndjxvh-babatunde-kalejaiyes-projects.vercel.app"]}}) # noqa
 
 # ✅ Create Database Tables
 Base.metadata.create_all(bind=engine)

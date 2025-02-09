@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { corsMiddleware } from "@/lib/corsMiddleware";
 import { Pool } from "pg";
 
 if (!process.env.NEXT_PUBLIC_DB_URL) {
@@ -9,11 +10,12 @@ const pool = new Pool({
   connectionString: process.env.NEXT_PUBLIC_DB_URL,
 });
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
     // Test database connection
     const client = await pool.connect();
     try {
+      await corsMiddleware(req, res);
       // Query to fetch data
       const result = await client.query("SELECT * FROM links LIMIT 20;");
       return NextResponse.json({
