@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { drizzledb } from "@/db/drizzle";
-import { movies } from "@/db/schema";
+import { links } from "@/db/schema";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    const result = await drizzledb.select().from(movies).limit(5).execute();
+    const result = await drizzledb.select().from(links).limit(20).execute();
     if (!result) {
       return NextResponse.json({
         success: false,

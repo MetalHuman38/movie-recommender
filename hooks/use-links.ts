@@ -22,7 +22,7 @@ export const usePosters = () => {
 
       try {
         // Fetch links with `tmdb_id` from your API
-        const response = await fetch("api/links");
+        const response = await fetch("/api/link");
         if (!response.ok) {
           throw new Error("Failed to fetch links data");
         }
