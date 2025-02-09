@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { corsMiddleware } from "@/lib/corsMiddleware";
 import { Pool } from "pg";
 
 if (!process.env.NEXT_PUBLIC_DB_URL) {
@@ -11,7 +10,6 @@ const pool = new Pool({
 });
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  await corsMiddleware(req, res);
   try {
     // Test database connection
     const client = await pool.connect();
