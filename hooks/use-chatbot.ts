@@ -28,7 +28,7 @@ export const useChatbot = () => {
     setError(null);
 
     try {
-      const response = await axiosInstance.post("/api/chatbot", { message });
+      const response = await axiosInstance.post("api/chatbot", { message });
       if (response.status === 200) {
         setResponse(response.data);
       }

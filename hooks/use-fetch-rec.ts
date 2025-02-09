@@ -2,5 +2,5 @@
 import { useFetchAPI } from "./use-fetch-api";
 
 export const useFetchRec = () => {
-  return useFetchAPI("/api/recommendations?movie_id=1&top_n=20");
+  return useFetchAPI("api/recommendations?movie_id=1&top_n=20");
 };

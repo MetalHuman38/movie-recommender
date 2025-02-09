@@ -27,7 +27,7 @@ export const usePosters = () => {
 
       try {
         // Fetch links from your API
-        const response = await fetch("http://localhost:3000/api/links");
+        const response = await fetch("api/links");
         if (!response.ok) {
           throw new Error("Failed to fetch links data");
         }

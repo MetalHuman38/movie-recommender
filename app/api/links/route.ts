@@ -11,11 +11,11 @@ const pool = new Pool({
 });
 
 export async function GET(req: NextRequest, res: NextResponse) {
+  await corsMiddleware(req, res);
   try {
     // Test database connection
     const client = await pool.connect();
     try {
-      await corsMiddleware(req, res);
       // Query to fetch data
       const result = await client.query("SELECT * FROM links LIMIT 20;");
       return NextResponse.json({

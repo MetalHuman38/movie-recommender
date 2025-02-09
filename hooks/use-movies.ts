@@ -1,28 +1,3 @@
-// import { fetchMovies } from "@/lib/utils";
-// import { IMovies, MoviesDataProps } from "@/components";
-// import { useEffect, useState } from "react";
-
-// export const useMovies = ({ movie_id }: Pick<MoviesDataProps, "movie_id">) => {
-//   const [movies, setMovies] = useState<IMovies[]>([]);
-//   const [error, setError] = useState<string | null>(null);
-//   console.log("Movie ID:", movie_id, movies);
-
-//   useEffect(() => {
-//     const fetchMoviesData = async () => {
-//       try {
-//         const data = await fetchMovies();
-//         setMovies(data);
-//         console.log("Movies data from server:", data);
-//       } catch (err) {
-//         setError("Failed to fetch movies");
-//       }
-//     };
-
-//     fetchMoviesData();
-//   }, [movie_id]);
-
-//   return { movies, error };
-// };
 import { useState, useEffect } from "react";
 
 // Define the movie interface
