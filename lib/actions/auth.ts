@@ -84,7 +84,7 @@ export const signUp = async (params: AuthCredentials) => {
       .execute();
     console.log("newUser", newUser);
 
-    if (!newUser || !newUser.rows || newUser.rows.length === 0) {
+    if (!newUser) {
       return { success: false, error: "Failed to create registration" };
     }
 
