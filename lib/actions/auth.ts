@@ -8,6 +8,8 @@ import { signIn } from "@/auth";
 import { headers } from "next/headers";
 import ratelimit from "@/lib/ratelimit";
 import { redirect } from "next/navigation";
+import { workflowClient } from "../workflow";
+import config from "../config";
 
 export const signInWithCredentials = async (
   params: Pick<AuthCredentials, "email" | "password">
@@ -85,6 +87,15 @@ export const signUp = async (params: AuthCredentials) => {
     if (!newUser || !newUser.rows || newUser.rows.length === 0) {
       return { success: false, error: "Failed to create registration" };
     }
+
+    await workflowClient.trigger({
+      url: `${config.env.prodApiEndPoint}/api/workflows/onboarding`,
+      body: {
+        email,
+        fullName,
+      },
+    });
+
     await signInWithCredentials({ email, password });
     return { success: true, error: "" };
   } catch (error) {

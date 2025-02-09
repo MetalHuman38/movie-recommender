@@ -15,7 +15,7 @@ import random
 app = Flask(__name__)
 
 # Enable CORS (allowing frontend requests from localhost:3000)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://localhost:5001"]}}) # noqa
 
 # ✅ Create Database Tables
 Base.metadata.create_all(bind=engine)
