@@ -1,4 +1,4 @@
-import { drizzledb } from "@/db/drizzle";
+import { db } from "@/database/drizzle";
 import { coreMovie } from "@/db/schema"; // Assuming coreMovies is your table
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
@@ -13,7 +13,7 @@ const RedirectToMovie = async ({
   console.log("🔍 Looking up movieId for imdbId:", imdbId);
 
   // 🔹 Fetch `movieId` from `core_movies` using `imdbId`
-  const result = await drizzledb
+  const result = await db
     .select({ movieId: coreMovie.movieId })
     .from(coreMovie)
     .where(eq(coreMovie.imdbId, Number(imdbId))) // Ensure imdbId is cast to a number
