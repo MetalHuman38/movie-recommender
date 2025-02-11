@@ -11,8 +11,6 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const top_n = Number(url.searchParams.get("top_n")) || 10;
 
-    console.log("🔍 Fetching random movies, count:", top_n);
-
     // ✅ Fetch `top_n` random movies using ORDER BY RANDOM()
     const movies = await db.execute(
       sql`SELECT * FROM core_movie ORDER BY RANDOM() LIMIT ${top_n};`

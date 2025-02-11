@@ -15,8 +15,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: false, message: "Query parameter is required." }, { status: 400 });
     }
 
-    console.log(`🔍 Searching movies with title matching: ${query}`);
-
     // ✅ First, search movies in the database (title contains query)
     const movies = await db.execute(
       sql`SELECT * FROM core_movie WHERE title ILIKE ${"%" + query + "%"} LIMIT 10;`

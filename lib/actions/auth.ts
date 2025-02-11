@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { registrations, users } from "@/database/schema";
+import { registrations } from "@/database/schema";
 import { eq } from "drizzle-orm";
 import { hash } from "bcryptjs";
 import { signIn } from "@/auth";
