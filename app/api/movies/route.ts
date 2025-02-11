@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { drizzledb } from "@/db/drizzle";
+import { db } from "@/database/drizzle";
 import { coreMovie } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Fetch the corresponding tmdbId from the database
-    const result = await drizzledb
+    const result = await db
       .select()
       .from(coreMovie).where((eq(coreMovie.imdbId, coreMovie.imdbId))).limit(20).execute();
     if (!result || result.length === 0) {

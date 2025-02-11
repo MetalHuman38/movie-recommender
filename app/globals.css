@@ -135,6 +135,10 @@
     @apply mt-4 min-h-14 w-fit bg-primary text-dark-100 font-semibold hover:bg-primary/90 max-md:w-full !important;
   }
 
+  .movie_overview {
+    @apply flex flex-col lg:flex-row gap-10 items-start;
+  }
+
   /* Book Overview */
   .book-overview {
     @apply flex flex-col-reverse items-center gap-12 sm:gap-32 xl:flex-row xl:gap-8;

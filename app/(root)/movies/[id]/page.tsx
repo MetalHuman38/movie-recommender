@@ -5,6 +5,12 @@ import { coreMovie } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import MovieDetailsClient from "@/components/MovieDetailsClient";
 
+interface CastMember {
+  name: string;
+  character: string;
+  profile_path: string;
+}
+
 interface Movie {
   title: string;
   poster_path: string;
@@ -19,6 +25,7 @@ interface Movie {
   homepage: string;
   imdb_id: string;
   origin_country: string[];
+  cast: CastMember[];
 }
 
 const MovieDetails = async ({
@@ -66,7 +73,12 @@ const MovieDetails = async ({
   const movie: Movie = await response.json();
   console.log("✅ Movie data fetched:", movie.title);
 
-  return <MovieDetailsClient movie={movie} />;
+  // return <MovieDetailsClient movie={movie} />;
+  return (
+    <>
+      <MovieDetailsClient movie={movie} />;
+    </>
+  );
 };
 
 export default MovieDetails;

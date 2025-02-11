@@ -4,6 +4,13 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import PlayIcon from "./icons/PlayIcon";
 import StarIcon from "./icons/StarIcon";
+import CastList from "./CastList";
+
+interface CastMember {
+  name: string;
+  character: string;
+  profile_path: string;
+}
 
 interface Movie {
   title: string;
@@ -18,6 +25,7 @@ interface Movie {
   budget: number;
   homepage: string;
   imdb_id: string;
+  cast: CastMember[];
 }
 
 interface Props {
@@ -30,17 +38,16 @@ const MovieDetailsClient: React.FC<Props> = ({ movie }) => {
   };
 
   return (
-    <section className="max-w-7xl p-6">
-      <div className="book-overview">
-        <div className="flex justify-center w-full h-full">
+    <section className="max-w-7xl p-6 mx-auto">
+      <div className="movie_overview">
+        <div className="flex-shrink-0 w-[650px] h-[750px] overflow-hidden rounded-lg shadow-lg">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
-            className="my-4 rounded-lg"
-            style={{ width: "400px", height: "400px%", objectFit: "cover" }}
+            className="w-full h-full object-fit"
           />
         </div>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 items-start">
           <p className="text-3xl font-bold text-light-200">
             <strong className="text-yellow-500">Title: </strong>
             <span className="text-light-200 italic">{movie.title}</span>
@@ -121,6 +128,13 @@ const MovieDetailsClient: React.FC<Props> = ({ movie }) => {
               Rate Movie
             </div>
           </div>
+          {/* ✅ Cast List */}
+          {movie.cast && movie.cast.length > 0 && (
+            <div className="mt-6">
+              <h2 className="text-xl font-bold text-white mb-4">Cast</h2>
+              <CastList cast={movie.cast} initialVisible={5} />
+            </div>
+          )}
         </div>
       </div>
     </section>

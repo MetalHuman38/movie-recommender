@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OpenAIClient } from "@/lib/OpenAiClient";
-import { drizzledb } from "@/db/drizzle";
-import { coreMovie } from "@/db/schema";
-import { sql, like } from "drizzle-orm";
+import { db } from "@/database/drizzle";
+import { sql } from "drizzle-orm";
 
 const aiClient = new OpenAIClient();
 
@@ -25,7 +24,7 @@ export async function POST(req: NextRequest) {
     const { genres, count } = extractedQuery;
 
     // ✅ Fetch matching movies from the database
-    const movies = await drizzledb.execute(
+    const movies = await db.execute(
       sql`SELECT * FROM core_movie WHERE genres ILIKE ${"%" + genres + "%"} LIMIT ${count};`
     );
 

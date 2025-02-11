@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { drizzledb } from "@/db/drizzle"; // ✅ Import Drizzle DB instance
+import { db } from "@/database/drizzle"; // ✅ Import Drizzle DB instance
 import { sql } from "drizzle-orm"; // ✅ Needed for raw SQL queries
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY || "";
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     console.log("🔍 Fetching random movies, count:", top_n);
 
     // ✅ Fetch `top_n` random movies using ORDER BY RANDOM()
-    const movies = await drizzledb.execute(
+    const movies = await db.execute(
       sql`SELECT * FROM core_movie ORDER BY RANDOM() LIMIT ${top_n};`
     );
 

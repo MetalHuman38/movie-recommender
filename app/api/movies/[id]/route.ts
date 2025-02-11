@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { drizzledb } from "@/db/drizzle";
+import { db } from "@/database/drizzle";
 import { coreLinks } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest, { params }: { params: { movieId: str
     }
 
     // 🔹 Fetch `tmdbId` and `imdbId` from database
-    const result = await drizzledb
+    const result = await db
       .select({ tmdbId: coreLinks.tmdbId, imdbId: coreLinks.imdbId })
       .from(coreLinks)
       .where(eq(coreLinks.movieId, Number(movieId)))
