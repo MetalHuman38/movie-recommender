@@ -31,8 +31,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ success: true, movies: moviesWithPosters });
     }
 
-    console.log("❌ No movies found locally. Fetching from TMDb...");
-
     // ✅ If not found in DB, search in TMDb API
     const apiUrl = `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
       query
