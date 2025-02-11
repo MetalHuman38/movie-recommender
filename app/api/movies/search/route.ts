@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { drizzledb } from "@/db/drizzle";
-import { coreLinks, coreMovie } from "@/db/schema";
-import { sql, like } from "drizzle-orm";
+import { db } from "@/database/drizzle";
+import { sql } from "drizzle-orm";
 
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY || "";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
@@ -19,7 +18,7 @@ export async function GET(req: NextRequest) {
     console.log(`🔍 Searching movies with title matching: ${query}`);
 
     // ✅ First, search movies in the database (title contains query)
-    const movies = await drizzledb.execute(
+    const movies = await db.execute(
       sql`SELECT * FROM core_movie WHERE title ILIKE ${"%" + query + "%"} LIMIT 10;`
     );
 
