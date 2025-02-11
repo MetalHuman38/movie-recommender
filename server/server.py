@@ -15,7 +15,18 @@ import random
 app = Flask(__name__)
 
 # Enable CORS (allowing frontend requests from localhost:3000)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://localhost:5001", "https://movie-recommender-fo9ndjxvh-babatunde-kalejaiyes-projects.vercel.app"]}}) # noqa
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": [
+                "http://localhost:3000",
+                "http://localhost:5001",
+                "https://movie-recommender-fo9ndjxvh-babatunde-kalejaiyes-projects.vercel.app",
+            ]
+        }
+    },
+)  # noqa
 
 # ✅ Create Database Tables
 Base.metadata.create_all(bind=engine)
@@ -45,7 +56,9 @@ def get_poster(movie_id):
             "genres": [],
             "vote_average": None,
         }
-    url = f"https://api.themoviedb.org/3/movie/{int(movie_id)}?api_key={api_key}" # noqa
+    url = (
+        f"https://api.themoviedb.org/3/movie/{int(movie_id)}?api_key={api_key}"  # noqa
+    )
     params = {"api_key": api_key}
 
     try:
@@ -62,7 +75,9 @@ def get_poster(movie_id):
 
         # Prepare the metadata dictionary
         poster_metadata = {
-            "poster_url": f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None, # noqa
+            "poster_url": (
+                f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+            ),  # noqa
             "title": title,
             "overview": overview,
             "release_date": release_date,
@@ -81,7 +96,7 @@ def get_poster(movie_id):
             "release_date": None,
             "genres": [],
             "vote_average": None,
-         }
+        }
 
 
 @app.route("/api/recommendations", methods=["GET"])
@@ -115,8 +130,12 @@ def get_recommendations():
             movie["genres"] = poster_data.get("genres")
             movie["vote_average"] = poster_data.get("vote_average")
             enriched_movies.append(movie)
-        validated_movies = [movie for movie in enriched_movies if movie["poster_url"]] # noqa
-        recommendations = movie_engine.content_based_recommendation(movie_id, top_n) # noqa
+        validated_movies = [
+            movie for movie in enriched_movies if movie["poster_url"]
+        ]  # noqa
+        recommendations = movie_engine.content_based_recommendation(
+            movie_id, top_n
+        )  # noqa
         return jsonify(recommendations, validated_movies)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -131,13 +150,17 @@ def get_movies():
         db = SessionLocal()
         limit = request.args.get("limit", default=10, type=int)
         # ✅ Use `joinedload(Movie.links)` to eagerly load `links`
-        movies = db.query(Movie).options(joinedload(Movie.links)).limit(limit).all() # noqa
+        movies = (
+            db.query(Movie).options(joinedload(Movie.links)).limit(limit).all()
+        )  # noqa
 
         # ✅ Close session after loading data
         db.close()
 
         # ✅ Convert SQLAlchemy objects to dictionaries using Pydantic
-        return jsonify([MovieSchema.model_validate(movie).model_dump() for movie in movies]) # noqa
+        return jsonify(
+            [MovieSchema.model_validate(movie).model_dump() for movie in movies]
+        )  # noqa
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -178,10 +201,16 @@ def search_movies():
         search_query = f"%{query.lower()}%"
 
         # ✅ Search SQLAlchemy ORM with ILIKE
-        movies = db.query(Movie).filter(Movie.title.ilike(search_query)).order_by(  # noqa
-            Movie.title == query,  # Exact match first
-            Movie.title.asc()  # Alphabetical order
-        ).limit(top_n).all()
+        movies = (
+            db.query(Movie)
+            .filter(Movie.title.ilike(search_query))
+            .order_by(  # noqa
+                Movie.title == query,  # Exact match first
+                Movie.title.asc(),  # Alphabetical order
+            )
+            .limit(top_n)
+            .all()
+        )
 
         db.close()
 
@@ -199,7 +228,9 @@ def search_movies():
             if tmdb_id:
                 poster_data = get_poster(tmdb_id)
             else:
-                print(f"❌ Skipping movie {movie_dict['movie_id']} (No TMDB ID)") # noqa
+                print(
+                    f"❌ Skipping movie {movie_dict['movie_id']} (No TMDB ID)"
+                )  # noqa
                 continue  # Skip if no TMDB ID is found
 
             # ✅ Skip movies without a poster
@@ -212,7 +243,9 @@ def search_movies():
                 movie_dict.update(poster_data)  # ✅ Merge Poster Data
                 search_results.append(movie_dict)  # ✅ Add to results
             else:
-                print(f"❌ Warning: poster_data is not valid for movie_id {movie_dict['movie_id']}") # noqa
+                print(
+                    f"❌ Warning: poster_data is not valid for movie_id {movie_dict['movie_id']}"
+                )  # noqa
 
         # ✅ If no valid movies are found, return an error
         if not search_results:
@@ -248,7 +281,12 @@ def get_random_movies():
         selected_ids = random.sample(movie_ids, min(top_n, len(movie_ids)))
 
         # ✅ Fetch Movie Details
-        movies = db.query(Movie).filter(Movie.movie_id.in_(selected_ids)).options(joinedload(Movie.links)).all() # noqa
+        movies = (
+            db.query(Movie)
+            .filter(Movie.movie_id.in_(selected_ids))
+            .options(joinedload(Movie.links))
+            .all()
+        )  # noqa
 
         db.close()
 
@@ -259,7 +297,9 @@ def get_random_movies():
 
             # ✅ Ensure `movie_dict` is a valid dictionary before update
             if not isinstance(movie_dict, dict):
-                print(f"❌ Error: movie_dict is not a valid dictionary! {movie_dict}") # noqa
+                print(
+                    f"❌ Error: movie_dict is not a valid dictionary! {movie_dict}"
+                )  # noqa
                 continue  # Skip this movie
 
             poster_data = get_poster(movie_dict["movie_id"])
@@ -272,7 +312,9 @@ def get_random_movies():
                 movie_dict.update(poster_data)  # ✅ Now update works correctly
                 random_movies.append(movie_dict)  # ✅ Store updated movie
             else:
-                print(f"❌ Warning: poster_data is not valid for movie_id {movie_dict['movie_id']}") # noqa
+                print(
+                    f"❌ Warning: poster_data is not valid for movie_id {movie_dict['movie_id']}"
+                )  # noqa
 
         return jsonify({"movies": random_movies})
 
@@ -307,9 +349,12 @@ def chatbot():
 
     # ✅ Fetch movie recommendations from DB
     db = SessionLocal()
-    movies = db.query(Movie).filter(
-        or_(*[Movie.genres.ilike(f"%{g.strip()}%") for g in genre.split()])
-    ).limit(count).all()
+    movies = (
+        db.query(Movie)
+        .filter(or_(*[Movie.genres.ilike(f"%{g.strip()}%") for g in genre.split()]))
+        .limit(count)
+        .all()
+    )
     print(f"🔍 Searching for: {genre} | Found: {len(movies)} movies")
     db.close()
 
@@ -334,12 +379,16 @@ def chatbot():
 
     # ✅ Format movies for chatbot response
     movie_list = [
-        {"movie_id": movie.movie_id, "title": movie.title, "poster_url": movie.poster_url or "N/A"} # noqa
+        {
+            "movie_id": movie.movie_id,
+            "title": movie.title,
+            "poster_url": movie.poster_url or "N/A",
+        }  # noqa
         for movie in movies
     ]
 
     response_text = f"Here are the top {count} {genre} movies:\n" + "\n".join(
-       [f"- {m['title']} s" for m in movie_list]
+        [f"- {m['title']} s" for m in movie_list]
     )
 
     return jsonify({"response": response_text, "movies": movie_list})
@@ -347,4 +396,5 @@ def chatbot():
 
 if __name__ == "__main__":
     from waitress import serve
-    serve(app, host='0.0.0.0', port=5001)
+
+    serve(app, host="0.0.0.0", port=5001)

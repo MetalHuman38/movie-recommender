@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "@/axiosConfig";
 
 export const useSearchMovies = (query: string) => {
   const [searchResults, setSearchResults] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!query) {
@@ -17,13 +16,18 @@ export const useSearchMovies = (query: string) => {
       setError(null);
 
       try {
-        const response = await axiosInstance.get("/api/search", {
-          params: { query },
-        });
-        console.log("✅ Search API Response:", response.data);
-        setSearchResults(response.data.movies);
-      } catch (err) {
-        setError(err);
+        const response = await fetch(`/api/movies/search?query=${encodeURIComponent(query)}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch search results.");
+        }
+
+        const data = await response.json();
+        console.log("✅ Search API Response:", data);
+
+        setSearchResults(data.movies);
+      } catch (err: any) {
+        setError(err.message);
       } finally {
         setIsLoading(false);
       }

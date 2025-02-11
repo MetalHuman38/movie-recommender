@@ -6,20 +6,45 @@ import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
-const ibmPlexSans = localFont({
+const ibmPlexsans = localFont({
   src: [
-    { path: "/fonts/IBMPlexSans-Regular.ttf", weight: "400", style: "normal" },
-    { path: "/fonts/IBMPlexSans-Medium.ttf", weight: "500", style: "normal" },
-    { path: "/fonts/IBMPlexSans-SemiBold.ttf", weight: "600", style: "normal" },
-    { path: "/fonts/IBMPlexSans-Bold.ttf", weight: "700", style: "normal" },
+    {
+      path: "/fonts/IBMPlexMono-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "/fonts/IBMPlexMono-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "/fonts/IBMPlexMono-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "/fonts/IBMPlexMono-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "/fonts/IBMPlexMono-SemiBoldItalic.ttf",
+      weight: "600",
+      style: "italic",
+    },
   ],
 });
 
 const bebasNeue = localFont({
   src: [
-    { path: "/fonts/BebasNeue-Regular.ttf", weight: "400", style: "normal" },
+    {
+      path: "/fonts/BebasNeue-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
   ],
-  variable: "--bebas-neue",
+  variable: "--bebasNeue",
 });
 
 export const metadata: Metadata = {
@@ -34,7 +59,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
     <html lang="en">
       <SessionProvider session={session}>
         <body
-          className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}
+          className={`${ibmPlexsans.className} ${bebasNeue.variable} antialiased`}
         >
           {children}
           <Toaster />

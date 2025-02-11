@@ -7,6 +7,22 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "m.media-amazon.com",
       },
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+      },
+      {
+        protocol: "https",
+        hostname: "www.themoviedb.org",
+      },
+      {
+        protocol: "https",
+        hostname: "www.imdb.com",
+      },
+      {
+        protocol: "https",
+        hostname: "fakeimg.pl",
+      }
     ],
   },
   typescript: {

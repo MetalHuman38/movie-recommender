@@ -1,13 +1,12 @@
 import React from "react";
-import MovieOverview from "@/components/MovieOverview";
 import MovieList from "@/components/MovieList";
-import TopPicksCard from "@/components/TopPicksCard";
+import RandomMovies from "@/components/RandomMovies";
 import ChatBot from "@/components/ChatBot";
 
 const Home = async () => {
   return (
     <>
-      <TopPicksCard />
+      <RandomMovies />
       <MovieList />
       <ChatBot />
     </>

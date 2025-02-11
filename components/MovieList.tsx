@@ -1,18 +1,18 @@
 "use client";
 import React from "react";
-import Posters from "./Posters";
-
-type MovieListProps = {
-  tmdb_id: number;
-};
+import Movies from "./Movies";
 
 const MovieList = () => {
   return (
-    <section className="w-full">
-      <h2 className="font-bebas-neue text-4xl text-light-100">
+    <section className="w-full mt-10">
+      <h2 className="font-bebas-neue text-4xl items-center text-light-100">
         Explore Popular Movies
       </h2>
-      <Posters />
+      <Movies
+        imdbId="123"
+        title="Movie Title"
+        posterUrl="https://example.com/poster.jpg"
+      />
     </section>
   );
 };

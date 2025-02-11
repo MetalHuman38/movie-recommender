@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useChatbot } from "@/hooks/use-chatbot";
+import { useChatbot } from "@/hooks/useChatBot";
 import CloseIcon from "@/components/icons/CloseIcon";
 import ChatBotIcon from "@/components/icons/ChatBotIcon";
 import { Button } from "./ui/button";
@@ -11,17 +11,18 @@ import MoviePlaceH from "./icons/MoviePlaceH";
 import { useMotion } from "@/hooks/use-motion";
 
 const ChatBot = () => {
-  const [message, setMessage] = useState(""); // ✅ Input state
-  const { response, isLoading, sendMessage } = useChatbot(); // ✅ Hook for chatbot API
+  const [message, setMessage] = useState(""); // ✅ User input
+  const { response, sendMessage } = useChatbot(); // ✅ New Hook
   const [messages, setMessages] = useState<{ text: string; sender: string }[]>(
     []
   ); // ✅ Chat history
-
-  const [isOpen, setIsOpen] = useState(false);
-  const { motion, containerControls, animations } = useMotion();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // ✅ Toggle chat window
+  const { motion, animations } = useMotion();
 
   console.log("🤖 ChatBot Response:", response);
 
+  // ✅ Handle Sending Messages
   const handleSend = () => {
     if (message.trim()) {
       setMessages((prev) => [...prev, { text: message, sender: "user" }]);
@@ -30,12 +31,13 @@ const ChatBot = () => {
     }
   };
 
+  // ✅ Update Chat History with Bot Responses
   useEffect(() => {
-    if (response?.message) {
+    if (response) {
       setMessages((prev) => [
         ...prev,
-        { text: response.message, sender: "bot" },
-      ]); // ✅ Store chatbot response
+        { text: response.text ?? "", sender: "bot" },
+      ]);
     }
   }, [response]);
 
@@ -74,29 +76,21 @@ const ChatBot = () => {
       {/* ✅ Chat Window - Show when chat is open */}
       {isOpen && (
         <div className="chatbot_window">
-          <div className="flex justify-between bg-black rounded-lg border-2">
-            <div className="flex items-center justify-center top-4 left-4">
+          <div className="flex justify-between rounded-lg border-2 p-3">
+            <div className="flex items-center gap-2">
               <AgentIcon />
-              <div className="">
-                <div className="text-white font-ibm-plex-sans text-bold">
-                  <p> Jason Rogan</p>
-                  <p className="text-sm font-ibm-plex-sans">
-                    Angent{" "}
-                    <span className="font-bold text-green-600">(Online)</span>
-                  </p>
-                </div>
+              <div>
+                <p className="text-white font-semibold">Jason Rogan</p>
+                <p className="text-sm text-green-500 font-bold">(Online)</p>
               </div>
             </div>
-            <div className="top-4 right-4">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-white"
-              >
-                <CloseIcon />
-              </button>
-            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-gray-400 hover:text-white"
+            >
+              <CloseIcon />
+            </button>
           </div>
-          {/* ✅ Header with Close Button */}
 
           {/* ✅ Chat Messages - Scrollable */}
           <div className="flex-1 p-3 space-y-2 overflow-y-auto h-64">
@@ -112,24 +106,25 @@ const ChatBot = () => {
                 {msg.text}
               </div>
             ))}
+
             {/* ✅ Display Movie Recommendations */}
-            {response?.movies && (
-              <div className="p-2 rounded-lg bg-gray-700 text-white">
+            {response?.movies && response.movies && (
+              <div className="p-2 rounded-lg text-white">
                 <div className="flex items-center gap-2">
                   <AgentIcon />
-                  <p className="font-ibm-plex-sans text-pretty text-center text-sm font-semibold">
-                    {`${response.response}`}
+                  <p className="font-semibold text-sm">
+                    Here are some recommendations 🎬:
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  {response?.movies?.map((movie: any) => (
+                  {response.movies.map((movie: any) => (
                     <Link
-                      href={`/movies/${movie?.movie_id}`}
+                      href={`/movies/${movie.movie_id}`}
                       key={movie.movie_id}
                       className="block"
                     >
-                      <div className="flex items-center gap-2 p-2 bg-gray-800 rounded-lg">
-                        {movie.poster_url !== "N/A" ? (
+                      <div className="flex items-center gap-2 p-2 bg-dark-100 rounded-lg">
+                        {movie.poster_url && movie.poster_url !== "N/A" ? (
                           <img
                             src={movie.poster_url}
                             alt={movie.title}
@@ -150,11 +145,13 @@ const ChatBot = () => {
                 </div>
               </div>
             )}
+
             {/* ✅ Typing Indicator */}
+            {isLoading && <p className="text-gray-400">Typing...</p>}
           </div>
 
           {/* ✅ Input & Send Button */}
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 flex items-end gap-2">
             <input
               id="chatbot_input"
               type="text"

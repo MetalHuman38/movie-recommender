@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 
 // Define the movie interface
 interface Movie {
-  movie_id: number;
+  id?: number;
+  imdbId: string;
+  movieId: number;
   title: string;
   genres: string;
-  poster: string;
+  posterUrl: string;
+  vote_average: number;
 }
 
 // Custom hook to fetch movies

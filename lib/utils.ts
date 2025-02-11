@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { drizzledb } from "@/db/drizzle";
+import { coreLinks } from "@/db/schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -13,63 +15,20 @@ export const getInitials = (name: string): string =>
     .toUpperCase()
     .slice(0, 2);
 
-export const fetchMoviePosters = async (movieIds: number[]) => {
+
+// Fetch Movie meta data using TMDb API and match with the `tmdbId` from the database
+export const fetchMovieMetadata = async (tmdbId: string) => {
   const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY || "";
   const baseUrl = "https://api.themoviedb.org/3";
-  const imageUrl = "https://image.tmdb.org/t/p/w500";
+  const tmdbResponse = await fetch(`${baseUrl}/movie/${tmdbId}?api_key=${apiKey}&language=en-US`);
 
-  try {
-    const posters = await Promise.all(
-      movieIds.map(async (id) => {
-        const response = await fetch(
-          `${baseUrl}/movie/${id}?api_key=${apiKey}&language=en-US`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          return {
-            id,
-            title: data.title,
-            poster_url: `${imageUrl}${data.poster_path}`,
-            year: new Date(data.release_date).getFullYear(),
-            rating: data.vote_average,
-            actors:
-              data.credits?.cast?.map(
-                (actor: { name: string }) => actor.name
-              ) || [],
-            director:
-              data.credits?.crew?.find(
-                (crew: { job: string }) => crew.job === "Director"
-              )?.name || "",
-            description: data.overview,
-            genre:
-              data.genres
-                ?.map((genre: { name: string }) => genre.name)
-                .join(", ") || "",
-            trailer: `https://www.youtube.com/watch?v=${data.videos?.results?.[0]?.key || ""}`,
-            runtime: data.runtime,
-            imdbID: data.imdb_id,
-            imdbRating: data.vote_average,
-            imdbVotes: data.vote_count,
-            metascore: data.vote_average * 10,
-            type: "movie",
-            response: true,
-            error: "",
-            country:
-              data.production_countries
-                ?.map((country: { name: string }) => country.name)
-                .join(", ") || "",
-          };
-        }
-        return null;
-      })
-    );
-
-    return posters.filter((movie): movie is IMovies => movie !== null); // Filter out null results
-  } catch (error) {
-    console.error("Error fetching movie posters:", error);
-    return [];
+  if (!tmdbResponse.ok) {
+    throw new Error("Failed to fetch movie metadata from TMDb.");
   }
-};
+
+  return tmdbResponse.json();
+
+}
 
 // custom function to fetch data from the database
 export const fetchMovies = async () => {
