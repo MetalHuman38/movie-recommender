@@ -113,7 +113,7 @@ const ChatBot = () => {
                 <div className="flex items-center gap-2">
                   <AgentIcon />
                   <p className="font-semibold text-sm">
-                    Here are some recommendations 🎬:
+                    Here are some recommendations movies 🎬:
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
